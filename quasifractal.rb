@@ -184,35 +184,5 @@ class Quasifractal
     end.join("\n")
     style += "\n</style>"
     return style
-    # style = <<~STYLE
-    #   <style>
-    #     td { text-align: center; }
-    #     .top-row-1 { border-bottom: 1px solid black; padding-bottom: 1px; }
-    #     .bottom-row-1 { border-top: 1px solid black; padding-top: 1px; }
-    #     .left-column-1 { border-right: 1px solid black; padding-right: 1px; }
-    #     .right-column-1 { border-left: 1px solid black; padding-left: 1px; }
-
-    #     .top-row-1 { border-bottom: 1px solid black; padding-bottom: 1px; }
-    #     .bottom-row-1 { border-top: 1px solid black; padding-top: 1px; }
-    #     .left-column-1 { border-right: 1px solid black; padding-right: 1px; }
-    #     .right-column-1 { border-left: 1px solid black; padding-left: 1px; }
-
-    #     .top-row-7 { border-bottom: 7px solid black; padding-bottom: 7px; }
-    #     .bottom-row-7 { border-top: 7px solid black; padding-top: 7px; }
-    #     .left-column-7 { border-right: 7px solid black; padding-right: 7px; }
-    #     .right-column-7 { border-left: 7px solid black; padding-left: 7px; }
-
-    #     .top-row-8 { border-bottom: 8px solid black; padding-bottom: 8px; }
-    #     .bottom-row-8 { border-top: 8px solid black; padding-top: 8px; }
-    #     .left-column-8 { border-right: 8px solid black; padding-right: 8px; }
-    #     .right-column-8 { border-left: 8px solid black; padding-left: 8px; }
-
-    #     .top-row-9 { border-bottom: 9px solid black; padding-bottom: 9px; }
-    #     .bottom-row-9 { border-top: 9px solid black; padding-top: 9px; }
-    #     .left-column-9 { border-right: 9px solid black; padding-right: 9px; }
-    #     .right-column-9 { border-left: 9px solid black; padding-left: 9px; }
-    #   </style>
-    # STYLE
-    # style
   end
 end

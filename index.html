@@ -1,0 +1,107 @@
+<html>
+  <head>
+    <style>
+      /* table { border: 1px solid black; } */
+      .top-row { border-bottom: 1px solid black; }
+      .bottom-row { border-top: 1px solid black; }
+      .left-column { border-right: 1px solid black; }
+      .right-column { border-left: 1px solid black; }
+
+      .top-row-9 { border-bottom: 9px solid black; }
+      .bottom-row-9 { border-top: 9px solid black; }
+      .left-column-9 { border-right: 9px solid black; }
+      .right-column-9 { border-left: 9px solid black; }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td class="top-row-9 left-column-9">
+          <table>
+            <tr>
+              <td class="top-row left-column">X</td>
+              <td class="top-row">
+                <table>
+                  <tr>
+                    <td>X</td>
+                    <td>O</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>8</td>
+                    <td>9</td>
+                  </tr>
+                </table>
+              </td>
+              <td class="top-row right-column">3</td>
+            </tr>
+            <tr>
+              <td class="left-column">4</td>
+              <td>5</td>
+              <td class="right-column">6</td>
+            </tr>
+            <tr>
+              <td class="bottom-row left-column">7</td>
+              <td class="bottom-row">8</td>
+              <td class="bottom-row right-column">9</td>
+            </tr>
+          </table>
+        </td>
+        <td class="top-row-9">
+          <table>
+            <tr>
+              <td class="top-row  left-column">1</td>
+              <td class="top-row">X</td>
+              <td class="top-row right-column">3</td>
+            </tr>
+            <tr>
+              <td class="left-column">4</td>
+              <td>5</td>
+              <td class="right-column">6</td>
+            </tr>
+            <tr>
+              <td class="bottom-row  left-column">7</td>
+              <td class="bottom-row">8</td>
+              <td class="bottom-row right-column">9</td>
+            </tr>
+          </table>
+        </td>
+        <td class="top-row-9 right-column-9">
+          <table>
+            <tr>
+              <td class="top-row  left-column">1</td>
+              <td class="top-row">2</td>
+              <td class="top-row right-column">X</td>
+            </tr>
+            <tr>
+              <td class="left-column">4</td>
+              <td>5</td>
+              <td class="right-column">6</td>
+            </tr>
+            <tr>
+              <td class="bottom-row  left-column">7</td>
+              <td class="bottom-row">8</td>
+              <td class="bottom-row right-column">9</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="left-column-9">4</td>
+        <td>5</td>
+        <td class="right-column-9">6</td>
+      </tr>
+      <tr>
+        <td class="bottom-row-9 left-column-9">7</td>
+        <td class="bottom-row-9">8</td>
+        <td class="bottom-row-9 right-column-9">9</td>
+      </tr>
+    </table>
+  </body>
+</html>

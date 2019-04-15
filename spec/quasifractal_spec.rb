@@ -19,129 +19,10 @@ describe Quasifractal do
     end
   end
 
-  fdescribe '#first_move' do
-    it 'returns a nested array' do
-      board = Quasifractal.new.first_move
-
-      expect(board.is_a?(Array)).to be true
-      expect(board[0].is_a?(Array)).to be true
-    end
-
-    it 'returns an array containing 9 arrays' do
-      board = Quasifractal.new.first_move
-
-      expect(board.length).to eq 9
-      expect(board.compact.length).to eq 9
-    end
-
-    it 'returns an array with 9 moves made' do
-      board = Quasifractal.new.first_move
-
-      expect(board.flatten.length).to be 81
-      expect(board.flatten.compact.length).to be 9
-    end
-
-    it 'fills all first moves with X' do
-      board = Quasifractal.new.first_move
-
-      expect(board[0][0]).to eq 'X'
-      expect(board[1][1]).to eq 'X'
-      expect(board[2][2]).to eq 'X'
-      expect(board[3][3]).to eq 'X'
-      expect(board[4][4]).to eq 'X'
-      expect(board[5][5]).to eq 'X'
-      expect(board[6][6]).to eq 'X'
-      expect(board[7][7]).to eq 'X'
-      expect(board[8][8]).to eq 'X'
-    end
-  end
-
-  xdescribe '#third_move' do
-    it 'returns a partially nested array' do
-      board = Quasifractal.new.third_move!
-      binding.pry
-
-      expect(board.is_a?(Array)).to be true
-      expect(board[0].is_a?(Array)).to be true
-      expect(board[0][0].is_a?(Array)).to be false
-      expect(board[0][1].is_a?(Array)).to be true
-      expect(board[0][1][0].is_a?(Array)).to be false
-    end
-
-    it 'returns an array containing 9 arrays' do
-      board = Quasifractal.new.second_move
-
-      expect(board.length).to eq 9
-      expect(board.compact.length).to eq 9
-    end
-
-    it 'returns an array with 72 moves made' do
-      board = Quasifractal.new.second_move
-
-      # 9 + 9*(9*8) => 9 first moves, 72 second moves for each first moves
-      expect(board.flatten.length).to be 657
-      # 9 + 2*72 => 9 first moves (1 char), 72 second moves (2 char)
-      expect(board.flatten.compact.length).to be 153
-    end
-
-    it 'returns an array with the second moves made' do
-      board = Quasifractal.new.second_move
-
-      expect(board[0][1][1]).to eq 'O'
-      expect(board[0][2][2]).to eq 'O'
-      expect(board[0][3][3]).to eq 'O'
-      expect(board[0][4][4]).to eq 'O'
-      expect(board[0][5][5]).to eq 'O'
-      expect(board[0][6][6]).to eq 'O'
-      expect(board[0][7][7]).to eq 'O'
-      expect(board[0][8][8]).to eq 'O'
-    end
-  end
-
-  describe '#second_move' do
-    it 'returns a partially nested array' do
-      board = Quasifractal.new.second_move
-
-      expect(board.is_a?(Array)).to be true
-      expect(board[0].is_a?(Array)).to be true
-      expect(board[0][0].is_a?(Array)).to be false
-      expect(board[0][1].is_a?(Array)).to be true
-    end
-
-    it 'returns an array containing 9 arrays' do
-      board = Quasifractal.new.second_move
-
-      expect(board.length).to eq 9
-      expect(board.compact.length).to eq 9
-    end
-
-    it 'returns an array with 72 moves made' do
-      board = Quasifractal.new.second_move
-
-      # 9 + 9*(9*8) => 9 first moves, 72 second moves for each first moves
-      expect(board.flatten.length).to be 657
-      # 9 + 2*72 => 9 first moves (1 char), 72 second moves (2 char)
-      expect(board.flatten.compact.length).to be 153
-    end
-
-    it 'returns an array with the second moves made' do
-      board = Quasifractal.new.second_move
-
-      expect(board[0][1][1]).to eq 'O'
-      expect(board[0][2][2]).to eq 'O'
-      expect(board[0][3][3]).to eq 'O'
-      expect(board[0][4][4]).to eq 'O'
-      expect(board[0][5][5]).to eq 'O'
-      expect(board[0][6][6]).to eq 'O'
-      expect(board[0][7][7]).to eq 'O'
-      expect(board[0][8][8]).to eq 'O'
-    end
-  end
-
   describe 'nth move' do
     context 'when n is 0' do
       it 'returns an empty board' do
-        board = Quasifractal.new.nth_move(0)
+        board = Quasifractal.new.nth_move!(0)
         empty_board = Quasifractal.new.empty_board
 
         expect(board).to eq empty_board
@@ -149,61 +30,129 @@ describe Quasifractal do
     end
 
     context 'when n is 1' do
-      xit 'returns a board with the first X move' do
-        quasifractal = Quasifractal.new
-        board = quasifractal.nth_move(1)
-        first_move = Quasifractal.new.first_move
+      it 'returns a nested array' do
+        board = Quasifractal.new.nth_move!(1)
 
-        expect(board).to eq first_move
+        expect(board.is_a?(Array)).to be true
+        expect(board[0].is_a?(Array)).to be true
+      end
+
+      it 'returns an array containing 9 arrays' do
+        board = Quasifractal.new.nth_move!(1)
+
+        expect(board.length).to eq 9
+        expect(board.compact.length).to eq 9
+      end
+
+      it 'returns an array with 9 moves made' do
+        board = Quasifractal.new.nth_move!(1)
+
+        # 9 containers
+          # 1 (first move), 8 a
+        # 9*(1 + 8*(2 + 7))
+        expect(board.flatten.length).to be 81
+        expect(board.flatten.compact.length).to be 9
+      end
+
+      it 'fills all first moves with X' do
+        board = Quasifractal.new.nth_move!(1)
+
+        expect(board[0][0]).to eq 'X'
+        expect(board[1][1]).to eq 'X'
+        expect(board[2][2]).to eq 'X'
+        expect(board[3][3]).to eq 'X'
+        expect(board[4][4]).to eq 'X'
+        expect(board[5][5]).to eq 'X'
+        expect(board[6][6]).to eq 'X'
+        expect(board[7][7]).to eq 'X'
+        expect(board[8][8]).to eq 'X'
       end
     end
 
     context 'when n is 2' do
-      it 'returns a board with thefirst O move' do
-        quasifractal = Quasifractal.new
-        board = quasifractal.nth_move(2)
-        second_move = Quasifractal.new.second_move
+      it 'returns a partially nested array' do
+        board = Quasifractal.new.nth_move!(2)
 
-        expect(board).to eq second_move
+        expect(board.is_a?(Array)).to be true
+        expect(board[0].is_a?(Array)).to be true
+        expect(board[0][0].is_a?(Array)).to be false
+        expect(board[0][1].is_a?(Array)).to be true
+      end
+
+      it 'returns an array containing 9 arrays' do
+        board = Quasifractal.new.nth_move!(2)
+
+        expect(board.length).to eq 9
+        expect(board.compact.length).to eq 9
+      end
+
+      it 'returns an array with 657 moves made' do
+        board = Quasifractal.new.nth_move!(2)
+
+        # 9 containers
+          # 1 (first move), 8 arrays
+            # 2 (first and second move) + 7 nil
+        # 9*(1 + 8*(2 + 7))
+        expect(board.flatten.length).to be 657
+        # 9*(1 + 8*(2))
+        expect(board.flatten.compact.length).to be 153
+      end
+
+      it 'returns an array with the second moves made' do
+        board = Quasifractal.new.nth_move!(2)
+
+        expect(board[0][1][1]).to eq 'O'
+        expect(board[0][2][2]).to eq 'O'
+        expect(board[0][3][3]).to eq 'O'
+        expect(board[0][4][4]).to eq 'O'
+        expect(board[0][5][5]).to eq 'O'
+        expect(board[0][6][6]).to eq 'O'
+        expect(board[0][7][7]).to eq 'O'
+        expect(board[0][8][8]).to eq 'O'
       end
     end
 
     context 'when n is 3' do
-      it 'returns a board with the second X move' do
-        quasifractal = Quasifractal.new
-        board = quasifractal.nth_move(3)
-        # second_move = Quasifractal.new.second_move
+      it 'returns a partially nested array' do
+        board = Quasifractal.new.nth_move!(3)
 
-        # expect(board).to eq second_move
-        binding.pry
+        expect(board.is_a?(Array)).to be true
+        expect(board[0].is_a?(Array)).to be true
+        expect(board[0][0].is_a?(Array)).to be false
+        expect(board[0][1].is_a?(Array)).to be true
       end
-    end
-  end
 
-  describe 'depth' do
-    context 'empty board' do
-      it 'returns 0' do
-        quasifractal = Quasifractal.new
+      it 'returns an array containing 9 arrays' do
+        board = Quasifractal.new.nth_move!(3)
 
-        expect(quasifractal.depth).to eq 0
+        expect(board.length).to eq 9
+        expect(board.compact.length).to eq 9
       end
-    end
 
-    context 'first move' do
-      it 'returns 1' do
-        quasifractal = Quasifractal.new
-        quasifractal.first_move!
+      it 'returns an array with 72 moves made' do
+        board = Quasifractal.new.nth_move!(3)
 
-        expect(quasifractal.depth).to eq 1
+        # 9 containers
+          # 1 (first move), 8 arrays
+            # 2 (first and second move), 7 arrays
+              # 3 (first, second, third move) + 6 nil
+        # 9*(1 + 8*(2 + 7*9))
+        expect(board.flatten.length).to be 4689
+        # 9*(1 + 8*(2 + 7*3))
+        expect(board.flatten.compact.length).to be 1665
       end
-    end
 
-    context 'second move' do
-      it 'returns 2' do
-        quasifractal = Quasifractal.new
-        quasifractal.second_move!
+      it 'returns an array with the second moves made' do
+        board = Quasifractal.new.nth_move!(3)
 
-        expect(quasifractal.depth).to eq 2
+        expect(board[0][1][1]).to eq 'O'
+        expect(board[0][2][2]).to eq 'O'
+        expect(board[0][3][3]).to eq 'O'
+        expect(board[0][4][4]).to eq 'O'
+        expect(board[0][5][5]).to eq 'O'
+        expect(board[0][6][6]).to eq 'O'
+        expect(board[0][7][7]).to eq 'O'
+        expect(board[0][8][8]).to eq 'O'
       end
     end
   end
@@ -216,11 +165,25 @@ describe Quasifractal do
       quasifractal.to_html
     end
 
-    fit 'prints a second-move board' do
+    it 'prints a second-move board' do
       quasifractal = Quasifractal.new
       quasifractal.nth_move!(2)
 
       quasifractal.to_html
+    end
+
+    it 'prints a third-move board' do
+      quasifractal = Quasifractal.new
+      quasifractal.nth_move!(3)
+
+      quasifractal.to_html
+    end
+
+    it 'prints a full board' do
+      quasifractal = Quasifractal.new
+      quasifractal.nth_move!(4)
+
+      quasifractal.to_html_file
     end
   end
 end

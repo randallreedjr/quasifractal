@@ -1,7 +1,15 @@
 describe Quasifractal do
+  let(:empty_board) { [nil, nil, nil, nil, nil, nil, nil, nil, nil] }
+  let(:incomplete_board_winner_x) { ['X','X','X','O','O', nil, nil, nil, nil] }
+  let(:complete_board_winner_x) { ['X', 'O', 'X', 'X', 'O', 'O', 'X', 'X', 'O'] }
+  let(:incomplete_board_winner_o) { ['X','X','O','X','O', nil, 'O', nil, nil] }
+  let(:complete_board_no_winner) { ['X', 'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X'] }
+  let(:incomplete_board_no_winner) { ['X','O','X','O','X', nil, nil, nil, nil] }
+  let(:quasifractal) { Quasifractal.new }
+
   describe '#initialize' do
     it 'sets board to an empty board' do
-      board = Quasifractal.new.board
+      board = quasifractal.board
 
       expect(board.is_a?(Array)).to be true
       expect(board.length).to eq 9
@@ -11,7 +19,7 @@ describe Quasifractal do
 
   describe '#empty_board' do
     it 'returns an array representing an empty board' do
-      board = Quasifractal.new.empty_board
+      board = quasifractal.empty_board
 
       expect(board.is_a?(Array)).to be true
       expect(board.length).to eq 9
@@ -22,8 +30,7 @@ describe Quasifractal do
   describe 'nth move' do
     context 'when n is 0' do
       it 'returns an empty board' do
-        board = Quasifractal.new.nth_move!(0)
-        empty_board = Quasifractal.new.empty_board
+        board = quasifractal.nth_move!(0)
 
         expect(board).to eq empty_board
       end
@@ -31,21 +38,21 @@ describe Quasifractal do
 
     context 'when n is 1' do
       it 'returns a nested array' do
-        board = Quasifractal.new.nth_move!(1)
+        board = quasifractal.nth_move!(1)
 
         expect(board.is_a?(Array)).to be true
         expect(board[0].is_a?(Array)).to be true
       end
 
       it 'returns an array containing 9 arrays' do
-        board = Quasifractal.new.nth_move!(1)
+        board = quasifractal.nth_move!(1)
 
         expect(board.length).to eq 9
         expect(board.compact.length).to eq 9
       end
 
       it 'returns an array with 9 moves made' do
-        board = Quasifractal.new.nth_move!(1)
+        board = quasifractal.nth_move!(1)
 
         # 9 containers
           # 1 (first move), 8 a
@@ -55,7 +62,7 @@ describe Quasifractal do
       end
 
       it 'fills all first moves with X' do
-        board = Quasifractal.new.nth_move!(1)
+        board = quasifractal.nth_move!(1)
 
         expect(board[0][0]).to eq 'X'
         expect(board[1][1]).to eq 'X'
@@ -71,7 +78,7 @@ describe Quasifractal do
 
     context 'when n is 2' do
       it 'returns a partially nested array' do
-        board = Quasifractal.new.nth_move!(2)
+        board = quasifractal.nth_move!(2)
 
         expect(board.is_a?(Array)).to be true
         expect(board[0].is_a?(Array)).to be true
@@ -80,14 +87,14 @@ describe Quasifractal do
       end
 
       it 'returns an array containing 9 arrays' do
-        board = Quasifractal.new.nth_move!(2)
+        board = quasifractal.nth_move!(2)
 
         expect(board.length).to eq 9
         expect(board.compact.length).to eq 9
       end
 
       it 'returns an array with 657 moves made' do
-        board = Quasifractal.new.nth_move!(2)
+        board = quasifractal.nth_move!(2)
 
         # 9 containers
           # 1 (first move), 8 arrays
@@ -99,7 +106,7 @@ describe Quasifractal do
       end
 
       it 'returns an array with the second moves made' do
-        board = Quasifractal.new.nth_move!(2)
+        board = quasifractal.nth_move!(2)
 
         expect(board[0][1][1]).to eq 'O'
         expect(board[0][2][2]).to eq 'O'
@@ -114,7 +121,7 @@ describe Quasifractal do
 
     context 'when n is 3' do
       it 'returns a partially nested array' do
-        board = Quasifractal.new.nth_move!(3)
+        board = quasifractal.nth_move!(3)
 
         expect(board.is_a?(Array)).to be true
         expect(board[0].is_a?(Array)).to be true
@@ -123,14 +130,14 @@ describe Quasifractal do
       end
 
       it 'returns an array containing 9 arrays' do
-        board = Quasifractal.new.nth_move!(3)
+        board = quasifractal.nth_move!(3)
 
         expect(board.length).to eq 9
         expect(board.compact.length).to eq 9
       end
 
       it 'returns an array with 72 moves made' do
-        board = Quasifractal.new.nth_move!(3)
+        board = quasifractal.nth_move!(3)
 
         # 9 containers
           # 1 (first move), 8 arrays
@@ -143,7 +150,7 @@ describe Quasifractal do
       end
 
       it 'returns an array with the second moves made' do
-        board = Quasifractal.new.nth_move!(3)
+        board = quasifractal.nth_move!(3)
 
         expect(board[0][1][1]).to eq 'O'
         expect(board[0][2][2]).to eq 'O'
@@ -155,76 +162,152 @@ describe Quasifractal do
         expect(board[0][8][8]).to eq 'O'
       end
     end
+
+    context 'when n exceeds available moves' do
+      it 'stops early' do
+        full_board = complete_board_no_winner
+        board = quasifractal.nth_move!(3, full_board)
+
+        expect(board.is_a?(Array)).to be true
+        expect(board).to eq full_board
+      end
+    end
+  end
+
+  describe 'winner' do
+    it 'returns nil for an empty board' do
+      board = empty_board
+
+      expect(quasifractal.winner(board)).to be nil
+    end
+
+    it 'retuns nil for a board that is not complete' do
+      board = incomplete_board_no_winner
+
+      expect(quasifractal.winner(board)).to be nil
+    end
+
+    it 'retuns X for an incomplete board where X has won' do
+      board = incomplete_board_winner_x
+
+      expect(quasifractal.winner(board)).to eq 'X'
+    end
+
+    it 'retuns X for a complete board where X has won' do
+      board = complete_board_winner_x
+
+      expect(quasifractal.winner(board)).to eq 'X'
+    end
+
+    it 'retuns O for an incomplete board where O has won' do
+      board = incomplete_board_winner_o
+
+      expect(quasifractal.winner(board)).to eq 'O'
+    end
+
+    it 'retuns C for a complete board where no one has won' do
+      board = complete_board_no_winner
+
+      expect(quasifractal.winner(board)).to eq 'C'
+    end
   end
 
   describe 'game_over?' do
     it 'returns false for an empty board' do
-      quasifractal = Quasifractal.new
-      board = quasifractal.empty_board
+      board = empty_board
 
       expect(quasifractal.game_over?(board)).to be false
     end
 
     it 'retuns false for a board that is not complete' do
-      quasifractal = Quasifractal.new
-      board = ['X','O','X','O','X', nil, nil, nil, nil]
+      board = incomplete_board_no_winner
 
       expect(quasifractal.game_over?(board)).to be false
     end
 
     it 'retuns true for an incomplete board where X has won' do
-      quasifractal = Quasifractal.new
-      board = ['X','X','X','O','O', nil, nil, nil, nil]
+      board = incomplete_board_winner_x
 
       expect(quasifractal.game_over?(board)).to be true
     end
 
     it 'retuns true for an complete board where X has won' do
-      quasifractal = Quasifractal.new
-      board = ['X', 'O', 'X', 'X', 'O', 'O', 'X', 'X', 'O']
+      board = complete_board_winner_x
 
       expect(quasifractal.game_over?(board)).to be true
     end
 
     it 'retuns true for an incomplete board where O has won' do
-      quasifractal = Quasifractal.new
-      board = ['X','X','O','X','O', nil, 'O', nil, nil]
+      board = incomplete_board_winner_o
 
       expect(quasifractal.game_over?(board)).to be true
     end
 
     it 'retuns true for an complete board where no one has won' do
-      quasifractal = Quasifractal.new
-      board = ['X', 'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X']
+      board = complete_board_no_winner
 
       expect(quasifractal.game_over?(board)).to be true
     end
   end
 
+  describe 'value' do
+    it 'returns 0 for an incomplete game' do
+      board = incomplete_board_no_winner
+
+      expect(quasifractal.value(board)).to be 0
+    end
+
+    it 'returns 0 for a complete game where no one has won' do
+      board = complete_board_no_winner
+
+      expect(quasifractal.value(board)).to be 0
+    end
+
+    it 'returns 1 when computer is X and X has won' do
+      board = incomplete_board_winner_x
+
+      expect(quasifractal.value(board, 'X')).to be 1
+    end
+
+    it 'returns -1 when computer is O and X has won' do
+      board = complete_board_winner_x
+
+      expect(quasifractal.value(board, 'O')).to be -1
+    end
+
+    it 'returns -1 when computer is X and O has won' do
+      board = incomplete_board_winner_o
+
+      expect(quasifractal.value(board, 'X')).to be -1
+    end
+
+    it 'returns 1 when computer is O and O has won' do
+      board = incomplete_board_winner_o
+
+      expect(quasifractal.value(board, 'O')).to be 1
+    end
+  end
+
   describe 'to_html' do
     it 'prints a first-move board' do
-      quasifractal = Quasifractal.new
       quasifractal.nth_move!(1)
 
       quasifractal.to_html
     end
 
     it 'prints a second-move board' do
-      quasifractal = Quasifractal.new
       quasifractal.nth_move!(2)
 
       quasifractal.to_html
     end
 
     it 'prints a third-move board' do
-      quasifractal = Quasifractal.new
       quasifractal.nth_move!(3)
 
       quasifractal.to_html
     end
 
     xit 'prints a full board' do
-      quasifractal = Quasifractal.new
       quasifractal.nth_move!(6)
 
       quasifractal.to_html_file

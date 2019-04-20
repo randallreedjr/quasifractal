@@ -157,6 +157,50 @@ describe Quasifractal do
     end
   end
 
+  describe 'game_over?' do
+    it 'returns false for an empty board' do
+      quasifractal = Quasifractal.new
+      board = quasifractal.empty_board
+
+      expect(quasifractal.game_over?(board)).to be false
+    end
+
+    it 'retuns false for a board that is not complete' do
+      quasifractal = Quasifractal.new
+      board = ['X','O','X','O','X', nil, nil, nil, nil]
+
+      expect(quasifractal.game_over?(board)).to be false
+    end
+
+    it 'retuns true for an incomplete board where X has won' do
+      quasifractal = Quasifractal.new
+      board = ['X','X','X','O','O', nil, nil, nil, nil]
+
+      expect(quasifractal.game_over?(board)).to be true
+    end
+
+    it 'retuns true for an complete board where X has won' do
+      quasifractal = Quasifractal.new
+      board = ['X', 'O', 'X', 'X', 'O', 'O', 'X', 'X', 'O']
+
+      expect(quasifractal.game_over?(board)).to be true
+    end
+
+    it 'retuns true for an incomplete board where O has won' do
+      quasifractal = Quasifractal.new
+      board = ['X','X','O','X','O', nil, 'O', nil, nil]
+
+      expect(quasifractal.game_over?(board)).to be true
+    end
+
+    it 'retuns true for an complete board where no one has won' do
+      quasifractal = Quasifractal.new
+      board = ['X', 'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X']
+
+      expect(quasifractal.game_over?(board)).to be true
+    end
+  end
+
   describe 'to_html' do
     it 'prints a first-move board' do
       quasifractal = Quasifractal.new
@@ -179,9 +223,9 @@ describe Quasifractal do
       quasifractal.to_html
     end
 
-    it 'prints a full board' do
+    xit 'prints a full board' do
       quasifractal = Quasifractal.new
-      quasifractal.nth_move!(4)
+      quasifractal.nth_move!(6)
 
       quasifractal.to_html_file
     end

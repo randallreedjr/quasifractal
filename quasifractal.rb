@@ -107,15 +107,15 @@ class Quasifractal
 
       border_styles = []
       if index % 3 == 0
-        border_styles << "left-column-#{border_width}"
+        border_styles << "lc-#{border_width}"
       elsif index % 3 == 2
-        border_styles << "right-column-#{border_width}"
+        border_styles << "rc-#{border_width}"
       end
 
       if index / 3 == 0
-        border_styles << "top-row-#{border_width}"
+        border_styles << "tr-#{border_width}"
       elsif index / 3 == 2
-        border_styles << "bottom-row-#{border_width}"
+        border_styles << "br-#{border_width}"
       end
 
       content += "<td class=\"#{border_styles.join(' ')}\">"
@@ -143,10 +143,10 @@ class Quasifractal
     style += "td { text-align: center; }\n"
     style += (1..9).flat_map do |size|
       [
-        ".top-row-#{size} { border-bottom: #{size}px solid black; padding-bottom: #{size}px; }",
-        ".bottom-row-#{size} { border-top: #{size}px solid black; padding-top: #{size}px; }",
-        ".left-column-#{size} { border-right: #{size}px solid black; padding-right: #{size}px; }",
-        ".right-column-#{size} { border-left: #{size}px solid black; padding-left: #{size}px; }",
+        ".tr-#{size} { border-bottom: #{size}px solid black; padding-bottom: #{size}px; }",
+        ".br-#{size} { border-top: #{size}px solid black; padding-top: #{size}px; }",
+        ".lc-#{size} { border-right: #{size}px solid black; padding-right: #{size}px; }",
+        ".rc-#{size} { border-left: #{size}px solid black; padding-left: #{size}px; }",
         ".size-#{size} { font-size: #{(9*size)}px; }"
       ]
     end.join("\n")

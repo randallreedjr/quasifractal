@@ -9,9 +9,9 @@ class Quasifractal
   end
 
   def nth_move!(n, board = empty_board)
-    return board if n == 0
-    return board unless board.is_a? Array
-    return board if game_over?(board)
+    return board if n == 0 || !(board.is_a? Array)
+    return board if Game.new(board).game_over?
+
     # What next? How do we get to the bottom of an arbitratily deeply nested array
     # What if we convert to a hash, where the key is the level of nesting?
     # Maybe an array isn't the right approach?
@@ -54,42 +54,11 @@ class Quasifractal
   end
 
   def value(board, mark = nil)
-    return 0 unless game_over?(board)
-    return 0 if winner(board) == 'C'
-    mark == winner(board) ? 1 : -1
-  end
+    game = Game.new(board)
 
-  def winner(board)
-    return nil if board.compact.length < 5
-    winning_mark = winning_column(board) || winning_row(board) || winning_diagonal(board)
-    return 'C' if winning_mark.nil? && board.compact.length == 9
-    winning_mark
-  end
-
-  def game_over?(board)
-    return false if board.compact.length < 5
-    return true if board.compact.length == 9
-    !!winner(board)
-  end
-
-  def winning_column(board)
-    first_column = board[0].nil? ? nil : (board[0] if (board[0] == board[3]) && (board[3] == board[6]))
-    second_column = board[1].nil? ? nil : (board[1] if (board[1] == board[4]) && (board[4] == board[7]))
-    third_column = board[2].nil? ? nil : (board[2] if (board[2] == board[5]) && (board[5] == board[8]))
-    first_column || second_column || third_column
-  end
-
-  def winning_row(board)
-    first_row = board[0].nil? ? nil : (board[0] if (board[0] == board[1]) && (board[1] == board[2]))
-    second_row = board[3].nil? ? nil : (board[3] if (board[3] == board[4]) && (board[4] == board[5]))
-    third_row = board[6].nil? ? nil : (board[6] if (board[6] == board[7]) && (board[7] == board[8]))
-    first_row || second_row || third_row
-  end
-
-  def winning_diagonal(board)
-    first_diagonal = board[0].nil? ? nil : (board[0] if (board[0] == board[4]) && (board[4] == board[8]))
-    second_diagonal = board[2].nil? ? nil : (board[2] if (board[2] == board[4]) && (board[4] == board[6]))
-    first_diagonal || second_diagonal
+    return 0 unless game.game_over?
+    return 0 if game.winner == 'C'
+    mark == game.winner ? 1 : -1
   end
 
   def to_html

@@ -13,6 +13,7 @@
 # it.
 
 require_relative '../quasifractal.rb'
+require_relative '../game.rb'
 require 'pry'
 require 'pry-byebug'
 

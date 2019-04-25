@@ -34,17 +34,23 @@ class Printer
         content += "<tr>"
       end
 
+      # vertical borders: l(eft), m(iddle), r(ight)
       border_styles = []
       if index % 3 == 0
-        border_styles << "lc-#{border_width}"
+        border_styles << "l#{border_width}"
+      elsif index %3 == 1
+        border_styles << "m#{border_width}"
       elsif index % 3 == 2
-        border_styles << "rc-#{border_width}"
+        border_styles << "r#{border_width}"
       end
 
+      # horizontal borders: t(op), c(enter), b(ottom)
       if index / 3 == 0
-        border_styles << "tr-#{border_width}"
+        border_styles << "t#{border_width}"
+      elsif index / 3 == 1
+        border_styles << "c#{border_width}"
       elsif index / 3 == 2
-        border_styles << "br-#{border_width}"
+        border_styles << "b#{border_width}"
       end
 
       content += "<td class=\"#{border_styles.join(' ')}\">"
@@ -54,7 +60,7 @@ class Printer
       elsif el.nil?
         content += "&nbsp;&nbsp;"
       else
-        content += "<span class=\"size-#{border_width + 1}\">#{el}</span>"
+        content += "<span class=\"s#{border_width + 1}\">#{el}</span>"
       end
 
       content += "</td>"
@@ -72,11 +78,13 @@ class Printer
     style += "td { text-align: center; }\n"
     style += (1..9).flat_map do |size|
       [
-        ".tr-#{size} { border-bottom: #{size}px solid black; padding-bottom: #{size}px; }",
-        ".br-#{size} { border-top: #{size}px solid black; padding-top: #{size}px; }",
-        ".lc-#{size} { border-right: #{size}px solid black; padding-right: #{size}px; }",
-        ".rc-#{size} { border-left: #{size}px solid black; padding-left: #{size}px; }",
-        ".size-#{size} { font-size: #{(9*size)}px; }"
+        ".t#{size} { border-bottom: #{size}px solid black; padding-bottom: #{size}px; }",
+        ".b#{size} { border-top: #{size}px solid black; padding-top: #{size}px; }",
+        ".l#{size} { border-right: #{size}px solid black; padding-right: #{size}px; }",
+        ".r#{size} { border-left: #{size}px solid black; padding-left: #{size}px; }",
+        # ".s#{size} { font-size: #{(9*size)}pt; }"
+        # Size for 5th move board
+        ".s#{size} { font-size: #{(9*(size-4))}pt; }"
       ]
     end.join("\n")
     style += "\n</style>"

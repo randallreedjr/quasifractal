@@ -14,7 +14,7 @@ describe Printer do
     context 'for a first-move quasifractal' do
       it 'prints a first-move board' do
         quasifractal.nth_move!(1)
-        move_regex = /<span class=\"size-[0-9]\">X<\/span>/
+        move_regex = /<span class=\"s[0-9]\">X<\/span>/
         output = printer.to_html
 
         expect(output.scan(move_regex).count).to eq 9
@@ -24,8 +24,8 @@ describe Printer do
     context 'for a second-move quasifractal' do
       it 'prints a second-move board' do
         quasifractal.nth_move!(2)
-        x_move_regex = /<span class=\"size-[0-9]\">X<\/span>/
-        o_move_regex = /<span class=\"size-[0-9]\">O<\/span>/
+        x_move_regex = /<span class=\"s[0-9]\">X<\/span>/
+        o_move_regex = /<span class=\"s[0-9]\">O<\/span>/
         output = printer.to_html
 
         # 9 first moves + 9 * 8 second moves
@@ -38,8 +38,8 @@ describe Printer do
     context 'for a third-move quasifractal' do
       it 'prints a third-move board' do
         quasifractal.nth_move!(3)
-        x_move_regex = /<span class=\"size-[0-9]\">X<\/span>/
-        o_move_regex = /<span class=\"size-[0-9]\">O<\/span>/
+        x_move_regex = /<span class=\"s[0-9]\">X<\/span>/
+        o_move_regex = /<span class=\"s[0-9]\">O<\/span>/
         output = printer.to_html
 
         # 9 first moves + 9 * 8 second moves + 2 * (9 * 8 * 7) third moves
@@ -53,10 +53,32 @@ describe Printer do
   end
 
   describe 'to_html_file' do
+    it 'prints an empty board' do
+      printer.to_html_file('test0.html')
+    end
+
+    it 'prints a board with the first move' do
+      quasifractal.nth_move!(1)
+
+      printer.to_html_file('test1.html')
+    end
+
+    it 'prints a board with the first 4 moves' do
+      quasifractal.nth_move!(4)
+
+      printer.to_html_file('test4.html')
+    end
+
+    it 'prints a board with the first 5 moves' do
+      quasifractal.nth_move!(5)
+
+      printer.to_html_file('test5.html')
+    end
+
     xit 'prints a full board' do
       quasifractal.nth_move!(9)
 
-      printer.to_html_file
+      printer.to_html_file('testfull.html')
     end
   end
 end

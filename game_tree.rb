@@ -4,11 +4,18 @@ class GameTree
     @board = board.dup
   end
 
-  def minmax
-
+  def minmax(mark: nil)
+    board.map do |move|
+      # Need to add a test for leaf nodes and add recursion
+      if move.is_a? Array
+        value(board: move, mark: mark)
+      else
+        move
+      end
+    end
   end
 
-  def value(mark = nil)
+  def value(board: @board, mark: nil)
     game = Game.new(board)
 
     return 0 unless game.game_over?

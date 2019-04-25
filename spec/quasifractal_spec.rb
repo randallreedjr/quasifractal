@@ -211,30 +211,4 @@ describe Quasifractal do
       expect(quasifractal.value(board, 'O')).to be 1
     end
   end
-
-  describe 'to_html' do
-    it 'prints a first-move board' do
-      quasifractal.nth_move!(1)
-
-      quasifractal.to_html
-    end
-
-    it 'prints a second-move board' do
-      quasifractal.nth_move!(2)
-
-      quasifractal.to_html
-    end
-
-    it 'prints a third-move board' do
-      quasifractal.nth_move!(3)
-
-      quasifractal.to_html
-    end
-
-    xit 'prints a full board' do
-      quasifractal.nth_move!(6)
-
-      quasifractal.to_html_file
-    end
-  end
 end

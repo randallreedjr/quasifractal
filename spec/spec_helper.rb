@@ -12,8 +12,9 @@
 # the additional setup, and require it from the spec files that actually need
 # it.
 
-require_relative '../quasifractal.rb'
 require_relative '../game.rb'
+require_relative '../printer.rb'
+require_relative '../quasifractal.rb'
 require 'pry'
 require 'pry-byebug'
 

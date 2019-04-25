@@ -13,6 +13,7 @@
 # it.
 
 require_relative '../game.rb'
+require_relative '../game_tree.rb'
 require_relative '../printer.rb'
 require_relative '../quasifractal.rb'
 require 'pry'

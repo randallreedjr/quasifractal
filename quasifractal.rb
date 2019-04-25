@@ -52,12 +52,4 @@ class Quasifractal
   def mark(board)
     board.count(nil).odd? ? 'X' : 'O'
   end
-
-  def value(board, mark = nil)
-    game = Game.new(board)
-
-    return 0 unless game.game_over?
-    return 0 if game.winner == 'C'
-    mark == game.winner ? 1 : -1
-  end
 end

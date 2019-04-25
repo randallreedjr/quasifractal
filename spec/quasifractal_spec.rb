@@ -173,42 +173,4 @@ describe Quasifractal do
       end
     end
   end
-
-  describe 'value' do
-    it 'returns 0 for an incomplete game' do
-      board = incomplete_board_no_winner
-
-      expect(quasifractal.value(board)).to be 0
-    end
-
-    it 'returns 0 for a complete game where no one has won' do
-      board = complete_board_no_winner
-
-      expect(quasifractal.value(board)).to be 0
-    end
-
-    it 'returns 1 when computer is X and X has won' do
-      board = incomplete_board_winner_x
-
-      expect(quasifractal.value(board, 'X')).to be 1
-    end
-
-    it 'returns -1 when computer is O and X has won' do
-      board = complete_board_winner_x
-
-      expect(quasifractal.value(board, 'O')).to be -1
-    end
-
-    it 'returns -1 when computer is X and O has won' do
-      board = incomplete_board_winner_o
-
-      expect(quasifractal.value(board, 'X')).to be -1
-    end
-
-    it 'returns 1 when computer is O and O has won' do
-      board = incomplete_board_winner_o
-
-      expect(quasifractal.value(board, 'O')).to be 1
-    end
-  end
 end

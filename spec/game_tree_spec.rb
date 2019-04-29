@@ -1,7 +1,18 @@
 describe GameTree do
-  let(:game_tree) { GameTree.new(board) }
+  let(:game_tree) { GameTree.new }
 
-  describe 'minmax' do
+  describe 'minimax' do
+    context 'when board is in end state' do
+      let(:board) do
+        ['X', 'O', 'X', 'X', 'O', 'O', 'X', 'X', 'O']
+      end
+
+      it 'returns a value' do
+        expected_result = 1
+        expect(game_tree.minimax(board: board, mark: 'X')).to eq expected_result
+      end
+    end
+
     # Replace boards with values
     context 'when next move will be a win' do
       # if there's only one move, replace entire array with value
@@ -20,7 +31,27 @@ describe GameTree do
 
       it 'replaces a leaf node with a value' do
         expected_result = ['X', 'O', 'X', 'X', 'O', 'O', 1, 'X', 'O']
-        expect(game_tree.minmax(mark: 'X')).to eq expected_result
+        expect(game_tree.minimax(board: board, mark: 'X')).to eq expected_result
+      end
+    end
+
+    context 'when there are two moves left' do
+      let(:board) { [
+        'X', 'O', 'X',
+        'X', 'O', 'O',
+        ['X', 'O', 'X',
+         'X', 'O', 'O',
+         'O', 'X', ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X']
+        ], 'X',
+        ['X', 'O', 'X',
+         'X', 'O', 'O',
+         ['X', 'O', 'X', 'X', 'O', 'O', 'X', 'X', 'O'], 'X', 'O'
+        ]
+      ]}
+
+      it 'replaces leaf nodes with values' do
+        expected_result = ['X', 'O', 'X', 'X', 'O', 'O', 0, 'X', -1]
+        expect(game_tree.minimax(board: board, mark: 'O')).to eq expected_result
       end
     end
   end
@@ -36,14 +67,14 @@ describe GameTree do
     context 'when board is empty' do
       let(:board) { empty_board }
       it 'returns 0' do
-        expect(game_tree.value).to eq 0
+        expect(game_tree.value(board: board)).to eq 0
       end
     end
 
     context 'when board is incomplete' do
       let(:board) { incomplete_board_no_winner }
       it 'returns 0' do
-        expect(game_tree.value).to eq 0
+        expect(game_tree.value(board: board)).to eq 0
       end
     end
 
@@ -51,11 +82,11 @@ describe GameTree do
       let(:board) { incomplete_board_winner_x }
 
       it 'returns 1 for X' do
-        expect(game_tree.value(mark: 'X')).to eq 1
+        expect(game_tree.value(board: board, mark: 'X')).to eq 1
       end
 
       it 'returns -1 for O' do
-        expect(game_tree.value(mark: 'O')).to eq -1
+        expect(game_tree.value(board: board, mark: 'O')).to eq -1
       end
     end
 
@@ -63,11 +94,11 @@ describe GameTree do
       let(:board) { complete_board_winner_x }
 
       it 'returns 1 for X' do
-        expect(game_tree.value(mark: 'X')).to eq 1
+        expect(game_tree.value(board: board, mark: 'X')).to eq 1
       end
 
       it 'returns -1 for O' do
-        expect(game_tree.value(mark: 'O')).to eq -1
+        expect(game_tree.value(board: board, mark: 'O')).to eq -1
       end
     end
 
@@ -75,11 +106,11 @@ describe GameTree do
       let(:board) { incomplete_board_winner_o }
 
       it 'returns -1 for X' do
-        expect(game_tree.value(mark: 'X')).to eq -1
+        expect(game_tree.value(board: board, mark: 'X')).to eq -1
       end
 
       it 'returns 1 for O' do
-        expect(game_tree.value(mark: 'O')).to eq 1
+        expect(game_tree.value(board: board, mark: 'O')).to eq 1
       end
     end
 
@@ -87,11 +118,11 @@ describe GameTree do
       let(:board) { complete_board_no_winner }
 
       it 'returns 0 for X' do
-        expect(game_tree.value(mark: 'X')).to eq 0
+        expect(game_tree.value(board: board, mark: 'X')).to eq 0
       end
 
       it 'returns 0 for O' do
-        expect(game_tree.value(mark: 'O')).to eq 0
+        expect(game_tree.value(board: board, mark: 'O')).to eq 0
       end
     end
   end

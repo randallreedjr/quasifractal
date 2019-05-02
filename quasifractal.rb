@@ -1,11 +1,7 @@
 class Quasifractal
   attr_reader :board
-  def initialize
-    @board = empty_board
-  end
-
-  def empty_board
-    Array.new(9, nil)
+  def initialize(board = empty_board)
+    @board = board
   end
 
   def nth_move!(n, board = empty_board)
@@ -51,5 +47,11 @@ class Quasifractal
 
   def mark(board)
     board.count(nil).odd? ? 'X' : 'O'
+  end
+
+  private
+
+  def empty_board
+    Array.new(9, nil)
   end
 end

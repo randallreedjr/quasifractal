@@ -17,16 +17,6 @@ describe Quasifractal do
     end
   end
 
-  describe '#empty_board' do
-    it 'returns an array representing an empty board' do
-      board = quasifractal.empty_board
-
-      expect(board.is_a?(Array)).to be true
-      expect(board.length).to eq 9
-      expect(board.compact.length).to eq 0
-    end
-  end
-
   describe 'nth move' do
     context 'when n is 0' do
       it 'returns an empty board' do
@@ -170,6 +160,106 @@ describe Quasifractal do
 
         expect(board.is_a?(Array)).to be true
         expect(board).to eq full_board
+      end
+    end
+
+    context 'when passing a partially filled board' do
+      context 'when board is in the end state' do
+        it 'returns the full board' do
+          full_board = complete_board_winner_x
+          board = quasifractal.nth_move!(0, full_board)
+
+          expect(board.is_a?(Array)).to be true
+          expect(board).to eq full_board
+        end
+      end
+
+      context 'when one move remains' do
+        let(:one_move_missing) { ['X', 'O', 'X', 'X', 'O', 'O', nil, 'X', 'O'] }
+        let(:full_board) do
+          ['X', 'O', 'X', 'X', 'O', 'O',
+            ['X', 'O', 'X', 'X', 'O', 'O', 'X', 'X', 'O'],
+          'X', 'O']
+        end
+
+        it 'returns the full board' do
+          board = quasifractal.nth_move!(1, one_move_missing)
+
+          expect(board.is_a?(Array)).to be true
+          expect(board).to eq full_board
+        end
+      end
+
+      context 'when two moves remain' do
+        let(:two_moves_missing) { ['X', 'O', 'X', 'X', 'O', 'O', nil, 'X', nil] }
+        let(:full_board) do
+          [
+            'X', 'O', 'X',
+            'X', 'O', 'O',
+            [
+              'X', 'O', 'X',
+              'X', 'O', 'O',
+              'O', 'X', ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X']
+            ], 'X', [
+              'X', 'O', 'X',
+              'X', 'O', 'O',
+              ['X', 'O', 'X', 'X', 'O', 'O', 'X', 'X', 'O'], 'X', 'O'
+            ]
+          ]
+        end
+
+        it 'returns the full board' do
+          board = quasifractal.nth_move!(2, two_moves_missing)
+
+          expect(board.is_a?(Array)).to be true
+          expect(board).to eq full_board
+        end
+      end
+
+      context 'when three moves remain' do
+        let(:three_moves_missing) { ['X', 'O', 'X', 'X', 'O', 'O', nil, nil, nil] }
+        let(:full_board) do
+          [
+            'X', 'O', 'X',
+            'X', 'O', 'O',
+            [
+              'X', 'O', 'X',
+              'X', 'O', 'O',
+              'X', nil, nil
+            ], [
+              'X', 'O', 'X',
+              'X', 'O', 'O',
+              [
+                'X', 'O', 'X',
+                'X', 'O', 'O',
+                'O', 'X', ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X']
+              ], 'X', [
+                'X', 'O', 'X',
+                'X', 'O', 'O',
+                ['X', 'O', 'X', 'X', 'O', 'O', 'X', 'X', 'O'], 'X', 'O'
+              ]
+            ], [
+              'X', 'O', 'X',
+              'X', 'O', 'O',
+              [
+                'X', 'O', 'X',
+                'X', 'O', 'O',
+                'O', ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X'], 'X'
+              ], [
+                'X', 'O', 'X',
+                'X', 'O', 'O',
+                nil, 'O', 'X'
+              ], 'X'
+            ]
+          ]
+        end
+
+        it 'returns the full board' do
+          board = quasifractal.nth_move!(3, three_moves_missing)
+
+          expect(board.is_a?(Array)).to be true
+          expect(board).to eq full_board
+        end
       end
     end
   end

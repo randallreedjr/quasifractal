@@ -1,5 +1,5 @@
 describe GameTree do
-  let(:game_tree) { GameTree.new }
+  let(:game_tree) { GameTree.new(board) }
 
   describe 'minimax' do
     context 'when board is in end state' do
@@ -24,34 +24,95 @@ describe GameTree do
       # Not sure yet if we'll need to retain the nils, it will become clearer
       # as we move up higher in the tree
       let(:board) do
-        ['X', 'O', 'X', 'X', 'O', 'O',
-          ['X', 'O', 'X', 'X', 'O', 'O', 'X', 'X', 'O'],
-        'X', 'O']
+        ['X', 'O', 'X', 'X', 'O', 'O', nil, 'X', 'O']
       end
 
       it 'replaces a leaf node with a value' do
         expected_result = ['X', 'O', 'X', 'X', 'O', 'O', 1, 'X', 'O']
-        expect(game_tree.minimax(board: board, mark: 'X')).to eq expected_result
+        expect(game_tree.minimax).to eq expected_result
       end
     end
 
     context 'when there are two moves left' do
-      let(:board) { [
-        'X', 'O', 'X',
-        'X', 'O', 'O',
-        ['X', 'O', 'X',
-         'X', 'O', 'O',
-         'O', 'X', ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X']
-        ], 'X',
-        ['X', 'O', 'X',
-         'X', 'O', 'O',
-         ['X', 'O', 'X', 'X', 'O', 'O', 'X', 'X', 'O'], 'X', 'O'
-        ]
-      ]}
+      # O's turn to move
+      let(:board) {
+        ['X', 'O', 'X','X', 'O', 'O',nil, 'X', nil]
+      }
 
-      it 'replaces leaf nodes with values' do
+      it 'replaces possible moves with values' do
         expected_result = ['X', 'O', 'X', 'X', 'O', 'O', 0, 'X', -1]
         expect(game_tree.minimax(board: board, mark: 'O')).to eq expected_result
+      end
+    end
+
+    context 'when there are three moves left' do
+      let(:board) {
+        [
+          'X', 'O', 'X',
+          'X', 'O', 'O',
+          nil, nil, nil
+        ]
+      }
+
+      it 'replaces possible moves with values' do
+        expected_result = ['X', 'O', 'X', 'X', 'O', 'O', 1, 0, -1]
+        expect(game_tree.minimax(board: board, mark: 'X')).to eq expected_result
+      end
+    end
+  end
+
+  describe 'next_move' do
+    context 'when next move will be a win' do
+      let(:board) do
+        ['X', 'O', 'X', 'X', 'O', 'O', nil, 'X', 'O']
+      end
+
+      it 'returns index of best move' do
+        expect(game_tree.next_move).to eq 6
+      end
+    end
+
+    context 'when there are two moves left' do
+      let(:board) {
+        ['X', 'O', 'X','X', 'O', 'O',nil, 'X', nil]
+      }
+
+      it 'returns index of best move' do
+        expect(game_tree.next_move).to eq 6
+      end
+    end
+
+    context 'when there are three moves left' do
+      let(:board) {
+        [
+          'X', 'O', 'X',
+          'X', 'O', 'O',
+          nil, nil, nil
+        ]
+      }
+
+      it 'returns index of best move' do
+        expect(game_tree.next_move).to eq 6
+      end
+    end
+
+    context 'at beginning of game' do
+      let(:board) { Array.new(9, nil) }
+
+      it 'returns index of best move' do
+        possible_moves = [0, 2, 6, 8]
+        next_move = game_tree.next_move
+        expect(possible_moves).to include next_move
+      end
+    end
+
+    context 'after opening move' do
+      let(:board) { ['X', nil, nil, nil, nil, nil, nil, nil, nil] }
+
+      it 'returns index of best move' do
+        possible_move = 4
+        next_move = game_tree.next_move
+        expect(next_move).to eq possible_move
       end
     end
   end

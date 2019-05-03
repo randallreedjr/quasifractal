@@ -4,7 +4,7 @@ class Quasifractal
     @board = board
   end
 
-  def nth_move!(n, board = empty_board)
+  def nth_move!(n, board = self.board)
     return board if n == 0 || !(board.is_a? Array)
     return board if Game.new(board).game_over?
 
